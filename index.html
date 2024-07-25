@@ -6,10 +6,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClickR Extension</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    h1 {
+      font-family: "VT323", monospace;
+      font-size: 40px;
+      font-style: normal;
+      font-weight: bold;
+      text-decoration: underline;
+      text-align: center;
+    }
+    h2 {
+      font-family: 'Cursive', sans-serif;
+      color: rgb(13, 46, 38);
+      font-size: 2em;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-bottom: -20px;
+      text-align: center;
+    }
+    h3 {
+      font-size: 40px;
+      color: rgb(85, 189, 253);
+      background-color: rgb(255, 143, 246);
+      border-radius: 25px;
+      margin-top: auto;
+      text-align: center;
+      text-shadow:-1px -1px 0 #000,  
+                  1px -1px 0 #000,
+                  -1px  1px 0 #000,
+                   1px  1px 0 #000;
+    }
+    body {
+      background: linear-gradient(to bottom, rgb(87, 233, 246), rgb(255, 189, 255));
+    }
+  </style>
 </head>
-<body>
-  <h1>Welcome to ClickR Extension</h1>
-  <p>Click count: <span id="clickCount">0</span></p>
+<body >
+  <h1>ClickR</h1>
+  <div>
+    <h2 id="click-title">Clicks:</h2> 
+    <h3 id="clickCount">0</h3>
+  </div>
+  <select id="cursor">
+    <option value="auto">auto</option>
+    <option value="wait">wait</option>
+    <option value="cursors/cursor1.png"> custom</option>
+  </select>
   <script src="index.js"></script>
 </body>
 </html>
