@@ -1,20 +1,37 @@
 let clickCount = 0;
 let saveTimeout = null;
 
-// Initialize or retrieve click count from storage
-chrome.storage.sync.get('clicks', function(result) {
-  if (!chrome.runtime.lastError && result.clicks !== undefined) {
-    clickCount = result.clicks;
-  }
-});
+chrome.runtime.onStartup.addListener(onStartup);
 
-// Listen for messages from content scripts
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-  if (message.type === 'incrementClick') {
-    incrementClickCount();
-    sendResponse({ status: 'success' });
+function onStartup(){
+
+  if(!chrome.runtime.lastError){
+    console.log('onstartup loaded correctly');
+
+    // Initialize or retrieve click count from storage
+    chrome.storage.sync.get('clicks', function(result) {
+      if (!chrome.runtime.lastError && result.clicks !== undefined) {
+        clickCount = result.clicks;
+      }
+    });
+
+    // Listen for messages from content scripts
+    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+      if (message.type === 'incrementClick') {
+        incrementClickCount();
+        sendResponse({ status: 'success' });
+      }
+    });
+
+    setTimeout(() => {
+      console.log('This message is logged after a 5-second delay.');
+    }, 5000); // 5000 milliseconds = 5 seconds
   }
-});
+
+  console.error('Error loading:', chrome.runtime.lastError.message);
+
+}
+
 
 function incrementClickCount() {
   clickCount++;
@@ -35,7 +52,5 @@ function debounceSaveClickCount() {
         console.log('Click count saved successfully');
       }
     });
-  }, 5000); // Save every 5 seconds
+  }, 2000); // Save every 5 seconds
 }
-
-console.log(clickCount);
