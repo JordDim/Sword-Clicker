@@ -1,37 +1,27 @@
 let clickCount = 0;
 let saveTimeout = null;
 
-chrome.runtime.onStartup.addListener(onStartup);
-
-function onStartup(){
-
-  if(!chrome.runtime.lastError){
-    console.log('onstartup loaded correctly');
-
-    // Initialize or retrieve click count from storage
-    chrome.storage.sync.get('clicks', function(result) {
-      if (!chrome.runtime.lastError && result.clicks !== undefined) {
-        clickCount = result.clicks;
-      }
-    });
-
-    // Listen for messages from content scripts
-    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-      if (message.type === 'incrementClick') {
-        incrementClickCount();
-        sendResponse({ status: 'success' });
-      }
-    });
-
-    setTimeout(() => {
-      console.log('This message is logged after a 5-second delay.');
-    }, 5000); // 5000 milliseconds = 5 seconds
+// Initialize or retrieve click count from storage
+chrome.storage.sync.get('clicks', function(result) {
+  if (!chrome.runtime.lastError && result.clicks !== undefined) {
+    clickCount = result.clicks;
   }
+});
 
-  console.error('Error loading:', chrome.runtime.lastError.message);
+// Send onStartup current clickCount message to content.js
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.getClickCount) {
+    sendResponse({ clickCount: clickCount});
+  }
+});
 
-}
-
+// Listen for clicks
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message.type === 'incrementClick') {
+    incrementClickCount();
+    sendResponse({ status: 'success' });
+  }
+});
 
 function incrementClickCount() {
   clickCount++;
@@ -52,5 +42,43 @@ function debounceSaveClickCount() {
         console.log('Click count saved successfully');
       }
     });
-  }, 2000); // Save every 5 seconds
+  }, 5000); // Save every 5 seconds
 }
+
+// This function will be called to change the cursor on a specific tab
+function changeCursor(tabId) {
+  const cursorUrl = "cursors/cursor1.png";
+
+  function trySendMessage(retries) {
+    if (retries <= 0) {
+      console.error('Failed to send message after multiple attempts');
+      return;
+    }
+    chrome.tabs.sendMessage(tabId, { type: 'changeCursor', value: cursorUrl }, function(response) {
+      if (chrome.runtime.lastError) {
+        console.error('Error changing cursor:', chrome.runtime.lastError.message);
+        // Retry sending the message after a short delay
+        setTimeout(() => trySendMessage(retries - 1), 1000);
+      } else if (response && response.status === 'success') {
+        console.log('Cursor changed successfully');
+      }
+    });
+  }
+
+  // Try to send the message with 3 retries
+  trySendMessage(3);
+}
+
+// Listen for tab updates and apply the cursor when a page finishes loading
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+  if (changeInfo.status === 'complete') {
+    changeCursor(tabId);
+  }
+});
+
+// Optionally, you can also listen for newly created tabs and apply the cursor
+chrome.tabs.onCreated.addListener((tab) => {
+  changeCursor(tab.id);
+});
+
+// TO DO: When click count reaches *number* change cursor to that cursorURL.

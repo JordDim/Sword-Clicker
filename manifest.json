@@ -7,7 +7,8 @@
       "storage",
       "activeTab",
       "scripting",
-      "userScripts"
+      "userScripts",
+      "tabs"
     ],
     "background": {
       "service_worker": "background.js"
@@ -28,7 +29,7 @@
     "content_scripts": [
         {
             "matches": ["<all_urls>"], 
-            "js": ["click.js", "content.js", "index.js"]
+            "js": ["content.js", "index.js"]
         }
     ],
     "web_accessible_resources": [
