@@ -20,7 +20,7 @@ Follow these steps to install the **Sword Clicker** Chrome extension:
 1. **Clone or download the repository**:
    - If you have Git installed, you can clone the repository using the command below:
      ```bash
-     git clone https://github.com/JordDim/ClickR.git
+     git clone https://github.com/JordDim/Sword-Clicker.git
      ```
    - Alternatively, you can **download the ZIP** file directly from the GitHub repository by clicking on the **"Code"** button and selecting **"Download ZIP"**.
    - Extract the ZIP file to a folder on your computer.
