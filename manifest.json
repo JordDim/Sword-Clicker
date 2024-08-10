@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "ClickR",
+    "name": "Sword Clicker",
     "version": "1.0",
-    "description": "An extension to track clicks and change cursor.",
+    "description": "An extension to track clicks and changes cursor style to a sword. Depending on how many clicks the sword changes color.",
     "permissions": [
       "storage",
       "activeTab",
