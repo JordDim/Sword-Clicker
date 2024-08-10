@@ -115,5 +115,3 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 chrome.tabs.onCreated.addListener((tab) => {
   changeCursor(tab.id, saveCursor);
 });
-
-// TO DO: When click count reaches *number* change cursor to that cursorURL.
