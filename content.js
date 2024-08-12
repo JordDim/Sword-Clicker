@@ -5,7 +5,7 @@ document.addEventListener('click', function() {
       if (chrome.runtime.lastError) {
         console.error('Error sending message:', chrome.runtime.lastError.message);
       } else {
-        console.log('Message sent successfully.');
+        console.log('Click sent successfully.');
       }
     });
   }

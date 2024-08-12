@@ -1,6 +1,5 @@
 let clickCount = 0;
 let saveTimeout = null;
-let cursorChanged = false;
 let saveCursor = "cursors/cursor0.png";
 
 // Initialize or retrieve click count from storage
@@ -15,13 +14,6 @@ chrome.storage.sync.get(['clicks', 'cursor'], function(result) {
   }
 });
 
-// Send current clickCount message to content.js
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.getClickCount) {
-    sendResponse({ clickCount: clickCount});
-  }
-});
-
 // Listen for clicks and update click count
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.type === 'incrementClick') {
@@ -33,7 +25,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 function incrementClickCount(tabId) {
   clickCount++;
   debounceSaveClickCount();
-
+  // After every click it checks click count to know when to change cursor
   let newCursor = determineCursor(clickCount);
   if (newCursor !== saveCursor) {
     saveCursor = newCursor;
@@ -60,7 +52,7 @@ function debounceSaveClickCount() {
         console.log('Click count saved successfully');
       }
     });
-  }, 5000); // Save every 5 seconds
+  }, 1000); // Save every 1 seconds
 }
 
 // This function determines the right cursor based on the number of clicks
@@ -99,8 +91,6 @@ function changeCursor(tabId, cursorUrl) {
       }
     });
   }
-
-  // Try to send the message with 3 retries
   trySendMessage(3);
 }
 

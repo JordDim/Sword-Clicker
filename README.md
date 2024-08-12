@@ -59,7 +59,7 @@ Follow these steps to install the **Sword Clicker** Chrome extension:
   - You are using the latest version of Google Chrome.
   - Developer mode is enabled.
 
-- If problems persist, please open an issue in the [GitHub repository](https://github.com/your-username/sword-clicker/issues).
+- If problems persist, please open an issue in the [GitHub repository](https://github.com/JordDim/Sword-Clicker/issues).
 
 ## Contact
 
