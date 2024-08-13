@@ -2,9 +2,9 @@
 
 Sword Clicker is a Google Chrome web extension that enables the user to count their clicks.
 
-It comes with many styles but you will need to _click_ a certain number of times to unlock them.
+It comes with different style swords but you will need to _click_ a certain number of times to unlock them.
 
-Once you reach certain milestones, you will get an achievement and a new cursor style along with a celebration.
+Once you reach certain milestones, you will get a new sword.
 
 ## Table of Contents
 
